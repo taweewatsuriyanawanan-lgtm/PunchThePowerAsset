@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Unity WebGL TonConnect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✅ TonConnect UI Script -->
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+
+  <style>
+    body { margin: 0; background: #111; overflow: hidden; }
+    #unity-container { position: absolute; width: 100%; height: 100%; }
+    #ton-connect { position: absolute; top: 10px; right: 10px; z-index: 20; }
+  </style>
+</head>
+<body>
+  <!-- ✅ ปุ่ม Connect Wallet จะแสดงตรงนี้ -->
+  <div id="ton-connect"></div>
+
+  <div id="unity-container">
+    <canvas id="unity-canvas"></canvas>
+  </div>
+
+  <!-- ✅ Unity Loader -->
+  <script>
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/Build Web GL.loader.js";
+    var config = {
+      dataUrl: buildUrl + "/Build Web GL.data.unityweb",
+      frameworkUrl: buildUrl + "/Build Web GL.framework.js.unityweb",
+      codeUrl: buildUrl + "/Build Web GL.wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "DefaultCompany",
+      productName: "PunchThePowerAsset",
+      productVersion: "1.0",
+    };
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(document.querySelector("#unity-canvas"), config);
+    };
+    document.body.appendChild(script);
+
+    // ✅ สร้าง TonConnect UI
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: "https://jade-narwhal-09a2bd.netlify.app/tonconnect-manifest.json",
+      buttonRootId: "ton-connect"
+    });
+  </script>
+</body>
+</html>
